@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "YouTube Subtitles Downloader",
   "version": "1.2",
-  "description": "Download or copy YouTube subtitles directly.",
+  "description": "Download YouTube subtitles and send them directly to your Telegram.",
   "permissions": [
     "scripting",
     "activeTab",

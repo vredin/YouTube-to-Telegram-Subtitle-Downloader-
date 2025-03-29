@@ -3,31 +3,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveButton = document.getElementById('save');
   const statusDiv = document.getElementById('status');
 
-  // Загружаем сохраненный chat_id
+  // Load saved chat_id
   chrome.storage.sync.get(['telegramChatId'], (result) => {
     if (result.telegramChatId) {
       chatIdInput.value = result.telegramChatId;
     }
   });
 
-  // Сохраняем настройки
+  // Save settings
   saveButton.addEventListener('click', () => {
     const chatId = chatIdInput.value.trim();
     
-    // Проверяем, что Chat ID является числом
+    // Check if Chat ID is provided
     if (!chatId) {
-      showStatus('Пожалуйста, введите Telegram Chat ID', 'error');
+      showStatus('Please enter your Telegram Chat ID', 'error');
       return;
     }
 
-    // Проверяем формат Chat ID
+    // Validate Chat ID format
     if (!/^\d+$/.test(chatId)) {
-      showStatus('Chat ID должен быть положительным числом. Пожалуйста, проверьте инструкцию выше.', 'error');
+      showStatus('Chat ID must be a positive number. Please check the instructions above.', 'error');
       return;
     }
 
     chrome.storage.sync.set({ telegramChatId: chatId }, () => {
-      showStatus('Настройки успешно сохранены!', 'success');
+      showStatus('Settings saved successfully!', 'success');
     });
   });
 

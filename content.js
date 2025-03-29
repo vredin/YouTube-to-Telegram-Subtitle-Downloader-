@@ -8,7 +8,7 @@ injectScript();
 
 const TELEGRAM_BOT_TOKEN = '7609555371:AAGY4uTTmo23DfPQs6_mGVjf0Nlf1dcBdZs';
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
-const MAX_MESSAGE_LENGTH = 4000; // Оставляем небольшой запас от лимита в 4096
+const MAX_MESSAGE_LENGTH = 4000; // Keep some margin from the 4096 limit
 
 async function sendMessageToTelegram(chatId, text) {
   const response = await fetch(`${TELEGRAM_API_URL}/sendMessage`, {
@@ -42,7 +42,7 @@ function splitTextIntoChunks(text, maxLength) {
         chunks.push(currentChunk.trim());
         currentChunk = '';
       }
-      // Если одна строка больше максимальной длины, разбиваем её
+      // If a single line is longer than maxLength, split it
       if (line.length > maxLength) {
         const parts = line.match(new RegExp(`.{1,${maxLength}}`, 'g')) || [];
         chunks.push(...parts);
@@ -61,35 +61,35 @@ function splitTextIntoChunks(text, maxLength) {
 
 async function sendToTelegram(videoUrl, subtitles, videoTitle, channelName) {
   try {
-    // Получаем chat_id из настроек
+    // Get chat_id from settings
     const { telegramChatId } = await chrome.storage.sync.get(['telegramChatId']);
     
     if (!telegramChatId) {
-      alert('Пожалуйста, укажите ваш Telegram Chat ID в настройках расширения');
+      alert('Please set your Telegram Chat ID in the extension settings');
       return;
     }
 
-    // Создаем первое сообщение с информацией о видео
-    const headerMessage = `Субтитры к видео: ${videoUrl}`;
+    // Create first message with video information
+    const headerMessage = `Subtitles for video: ${videoUrl}`;
     await sendMessageToTelegram(telegramChatId, headerMessage);
 
-    // Разбиваем субтитры на части и отправляем их последовательно
+    // Split subtitles into chunks and send them sequentially
     const chunks = splitTextIntoChunks(subtitles, MAX_MESSAGE_LENGTH);
     
     for (let i = 0; i < chunks.length; i++) {
-      const partNumber = chunks.length > 1 ? `Часть ${i + 1}/${chunks.length}\n\n` : '';
+      const partNumber = chunks.length > 1 ? `Part ${i + 1}/${chunks.length}\n\n` : '';
       await sendMessageToTelegram(telegramChatId, partNumber + chunks[i]);
       
-      // Добавляем небольшую задержку между отправкой сообщений
+      // Add a small delay between messages
       if (i < chunks.length - 1) {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
     }
 
-    alert('Субтитры успешно отправлены в Telegram!');
+    alert('Subtitles sent to Telegram successfully!');
   } catch (error) {
     console.error('Error sending to Telegram:', error);
-    alert(`Ошибка при отправке в Telegram: ${error.message}`);
+    alert(`Error sending to Telegram: ${error.message}`);
   }
 }
 
@@ -102,7 +102,7 @@ window.addEventListener('message', async (event) => {
   const videoUrl = window.location.href;
 
   if (!subtitles) {
-    alert('Субтитры не найдены.');
+    alert('Subtitles not found.');
     return;
   }
 
