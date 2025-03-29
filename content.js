@@ -6,12 +6,10 @@ function injectScript() {
 }
 injectScript();
 
-const TELEGRAM_BOT_TOKEN = '7609555371:AAGY4uTTmo23DfPQs6_mGVjf0Nlf1dcBdZs';
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 const MAX_MESSAGE_LENGTH = 4000; // Keep some margin from the 4096 limit
 
-async function sendMessageToTelegram(chatId, text) {
-  const response = await fetch(`${TELEGRAM_API_URL}/sendMessage`, {
+async function sendMessageToTelegram(botToken, chatId, text) {
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -61,9 +59,14 @@ function splitTextIntoChunks(text, maxLength) {
 
 async function sendToTelegram(videoUrl, subtitles, videoTitle, channelName) {
   try {
-    // Get chat_id from settings
-    const { telegramChatId } = await chrome.storage.sync.get(['telegramChatId']);
+    // Get settings from storage
+    const { telegramBotToken, telegramChatId } = await chrome.storage.sync.get(['telegramBotToken', 'telegramChatId']);
     
+    if (!telegramBotToken) {
+      alert('Please set your Telegram Bot Token in the extension settings');
+      return;
+    }
+
     if (!telegramChatId) {
       alert('Please set your Telegram Chat ID in the extension settings');
       return;
@@ -71,14 +74,14 @@ async function sendToTelegram(videoUrl, subtitles, videoTitle, channelName) {
 
     // Create first message with video information
     const headerMessage = `Subtitles for video: ${videoUrl}`;
-    await sendMessageToTelegram(telegramChatId, headerMessage);
+    await sendMessageToTelegram(telegramBotToken, telegramChatId, headerMessage);
 
     // Split subtitles into chunks and send them sequentially
     const chunks = splitTextIntoChunks(subtitles, MAX_MESSAGE_LENGTH);
     
     for (let i = 0; i < chunks.length; i++) {
       const partNumber = chunks.length > 1 ? `Part ${i + 1}/${chunks.length}\n\n` : '';
-      await sendMessageToTelegram(telegramChatId, partNumber + chunks[i]);
+      await sendMessageToTelegram(telegramBotToken, telegramChatId, partNumber + chunks[i]);
       
       // Add a small delay between messages
       if (i < chunks.length - 1) {

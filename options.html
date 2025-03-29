@@ -73,14 +73,44 @@
       background-color: #f2dede;
       color: #a94442;
     }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>YouTube Subtitles Downloader Settings</h1>
     
-    <div class="instructions">
-      <h3>How to get your Chat ID:</h3>
+    <div class="section">
+      <h3>Step 1: Create Your Telegram Bot</h3>
+      <ol>
+        <li>Open <a href="https://t.me/BotFather" target="_blank">@BotFather</a> in Telegram</li>
+        <li>Send the command `/newbot`</li>
+        <li>Follow the instructions to create your bot:
+          <ul>
+            <li>Enter a name for your bot</li>
+            <li>Enter a username for your bot (must end in 'bot')</li>
+          </ul>
+        </li>
+        <li>BotFather will give you a token (like '123456789:ABCdefGHIjklMNOpqrsTUVwxyz')</li>
+        <li>Copy this token and paste it below</li>
+      </ol>
+      <div class="warning">
+        ⚠️ Important: Keep your bot token private! Never share it with anyone.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="botToken">Telegram Bot Token:</label>
+      <input type="text" id="botToken" placeholder="Example: 123456789:ABCdefGHIjklMNOpqrsTUVwxyz">
+    </div>
+
+    <div class="section">
+      <h3>Step 2: Get Your Chat ID</h3>
       <ol>
         <li>Open the official ID bot: <a href="https://t.me/getmyid_bot" target="_blank">@getmyid_bot</a></li>
         <li>Click "Start" or send the /start command</li>

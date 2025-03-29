@@ -20,14 +20,30 @@ A Chrome extension that allows you to download subtitles from YouTube videos and
 
 ## Setup
 
-1. After installation, click on the extension icon and select "Options"
-2. Get your Telegram Chat ID:
-   - Open [@getmyid_bot](https://t.me/getmyid_bot) in Telegram
-   - Click "Start" or send the `/start` command
-   - Find the "Your user ID:" line - this is your Chat ID
-   - If the bot doesn't respond, use the alternative bot [@userinfobot](https://t.me/userinfobot)
-3. Enter your Chat ID in the extension settings
+### Step 1: Create Your Telegram Bot
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram
+2. Send the `/newbot` command
+3. Follow the instructions to create your bot:
+   - Enter a name for your bot (e.g., "My Subtitles Bot")
+   - Enter a username for your bot (must end in 'bot', e.g., "my_subtitles_bot")
+4. BotFather will give you a token (looks like `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`)
+5. ⚠️ Keep this token private and secure!
+
+### Step 2: Get Your Chat ID
+
+1. Open [@getmyid_bot](https://t.me/getmyid_bot) in Telegram
+2. Click "Start" or send the `/start` command
+3. Find the "Your user ID:" line - this is your Chat ID
+4. If the bot doesn't respond, use [@userinfobot](https://t.me/userinfobot) instead
+
+### Step 3: Configure the Extension
+
+1. Click on the extension icon and select "Options"
+2. Enter your Bot Token from Step 1
+3. Enter your Chat ID from Step 2
 4. Click "Save Settings"
+5. Start your bot by opening it in Telegram and clicking "Start"
 
 ## Usage
 
@@ -46,9 +62,16 @@ A Chrome extension that allows you to download subtitles from YouTube videos and
 
 ### Subtitles are not being sent
 
-- Check that you entered the correct Chat ID in settings
+- Check that you entered the correct Bot Token and Chat ID in settings
+- Make sure you started the bot in Telegram
 - Make sure the video has subtitles
 - Check your internet connection
+
+### "Invalid Bot Token format" error
+
+- Make sure you copied the entire token from BotFather
+- The token should look like: `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`
+- Create a new bot if you're unsure about your token
 
 ### "Chat ID must be a number" error
 
@@ -65,8 +88,9 @@ A Chrome extension that allows you to download subtitles from YouTube videos and
 ## Security
 
 - Extension requests only necessary permissions
-- Your Chat ID is stored locally in the browser
+- Your Bot Token and Chat ID are stored locally in the browser
 - The extension does not collect any personal data
+- Never share your Bot Token with anyone
 
 ## License
 
