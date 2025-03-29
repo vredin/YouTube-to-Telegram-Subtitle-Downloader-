@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Subtitles Downloader",
+  "version": "1.2",
+  "description": "Download or copy YouTube subtitles directly.",
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://*.youtube.com/*",
+    "https://api.telegram.org/*"
+  ],
+  "web_accessible_resources": [{
+    "resources": ["injected.js"],
+    "matches": ["https://*.youtube.com/*", "https://api.telegram.org/*"]
+  }],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [{
+    "matches": ["https://*.youtube.com/*"],
+    "js": ["content.js"]
+  }],
+  "options_page": "options.html",
+  "action": {
+    "default_title": "Download subtitles"
+  }
+}
